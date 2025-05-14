@@ -1,12 +1,9 @@
-{% load static %}
+{% extends 'menu/base.html' %}
 
-<ul class="menu">
-    {% for node in menu_items %}
-        <li>
-            {{ node.name }}
-            {% if node.children %}
-                {% include 'menu/draw_menu.html' with menu_items=node.children %}
-            {% endif %}
-        </li>
+{% block content %}
+    {% for root in menu_items %}
+        <div class="block-menu">
+            {% include 'menu/one_menu.html' with menu_items=root target=target %}
+        </div>
     {% endfor %}
-</ul>
+{% endblock %}
