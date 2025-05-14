@@ -1,6 +1,5 @@
-
-from typing import List, Tuple, Any, Optional, Dict
 from dataclasses import dataclass, field
+from typing import Any, Dict, List, Optional, Tuple
 
 from django.db import connection
 
@@ -11,7 +10,7 @@ class MenuItemSchema:
     parent_id: Optional[int]
     name: str
     url: str
-    children: List["MenuItemSchema"]= field(default_factory=list)
+    children: List["MenuItemSchema"] = field(default_factory=list)
 
 
 def get_menu_branch(menu_name: str) -> List[MenuItemSchema]:
@@ -71,10 +70,7 @@ def get_menu_branch(menu_name: str) -> List[MenuItemSchema]:
         for item in cursor.fetchall():
             print(item)
             menu_item = MenuItemSchema(
-                id=item[0],
-                parent_id=item[1],
-                name=item[2],
-                url=item[3]
+                id=item[0], parent_id=item[1], name=item[2], url=item[3]
             )
             nodes[menu_item.id] = menu_item
 
