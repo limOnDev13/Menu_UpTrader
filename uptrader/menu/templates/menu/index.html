@@ -1,6 +1,6 @@
-<head>
-  <link rel="stylesheet" href="/static/styles.css">
-</head>
+{% extends 'menu/base.html' %}
 
-{% load menu_tags %}
-{% draw_menu 'target' %}
+{% block content %}
+  {% load menu_tags %}
+  {% draw_menu target %}
+{% endblock %}

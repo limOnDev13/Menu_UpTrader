@@ -7,13 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('menu', '0001_initial'),
+        ("menu", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='menuitem',
-            name='parent',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='menu.menuitem'),
+            model_name="menuitem",
+            name="parent",
+            field=models.ForeignKey(
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="children",
+                to="menu.menuitem",
+            ),
         ),
     ]

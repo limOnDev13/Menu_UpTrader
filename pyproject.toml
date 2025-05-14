@@ -9,3 +9,26 @@ dependencies = [
     "psycopg2>=2.9.10",
     "python-dotenv>=1.1.0",
 ]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "factory-boy>=3.3.3",
+    "isort>=6.0.1",
+]
+
+[tool.black]
+line-length = 79
+force-exclude = '''
+/(
+    \.venv
+)
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 79
+skip_gitignore = true
+skip_glob = [
+    "**/.venv/*",
+]
