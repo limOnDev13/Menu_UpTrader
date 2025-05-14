@@ -1,5 +1,4 @@
 import random
-from string import ascii_letters
 from typing import List, Optional, Set
 
 from django.test import TestCase
