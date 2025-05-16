@@ -76,5 +76,6 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: |
           . .venv/bin/activate
+          cd uptrader
           python manage.py migrate
           python manage.py test
