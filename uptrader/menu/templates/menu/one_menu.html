@@ -1,0 +1,18 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+    <ul class="menu">
+        {% for node in menu_items %}
+            <li>
+                {% if target == node.name %}
+                    <span class="dotted-underline"><a href="{{menu_url}}{{node.url}}">{{ node.name }}</a></span>
+                {% else %}
+                    <a href="{{menu_url}}{{node.url}}">{{ node.name }}</a>
+                {% endif %}
+                {% if node.children %}
+                    {% include 'menu/one_menu.html' with menu_items=node.children %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

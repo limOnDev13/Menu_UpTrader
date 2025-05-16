@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+.idea
+__pychache__
+.python-version
+postgres-data

@@ -1,0 +1,9 @@
+{% extends 'menu/base.html' %}
+
+{% block content %}
+    {% for root in menu_items %}
+        <div class="block-menu">
+            {% include 'menu/one_menu.html' with menu_items=root target=target %}
+        </div>
+    {% endfor %}
+{% endblock %}

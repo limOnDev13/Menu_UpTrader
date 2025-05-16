@@ -1,0 +1,81 @@
+name: Django CI
+
+on:
+  pull_request:
+    branches: [ "main", "develop" ]
+  push:
+    branches: ["main"]
+
+jobs:
+  linters:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.13]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        pip install --upgrade pip uv
+        uv sync
+    - name: Run Linters
+      run: |
+        . .venv/bin/activate
+        black --check --diff .
+        isort --check-only --diff .
+
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [ 3.12 ]
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: postgres
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip uv
+          uv sync
+      - name: Run Tests
+        env:
+          DJANGO_DEBUG: ${{ secrets.DJANGO_DEBUG }}
+          DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+          DJANGO_LOGLEVEL: ${{ secrets.DJANGO_LOGLEVEL }}
+          DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+          POSTGRES_HOST: localhost
+          POSTGRES_DB: postgres
+
+          POSTGRES_TEST_DB: ${{ secrets.POSTGRES_TEST_DB }}
+          POSTGRES_TEST_HOST: ${{ secrets.POSTGRES_TEST_HOST }}
+          POSTGRES_TEST_PORT: ${{ secrets.POSTGRES_TEST_PORT }}
+
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        run: |
+          . .venv/bin/activate
+          cd uptrader
+          python manage.py migrate
+          python manage.py test
