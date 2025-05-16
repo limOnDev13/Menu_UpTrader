@@ -7,5 +7,5 @@ from .views import test_draw_menu
 app_name = "menu"
 
 urlpatterns = [
-    path("", test_draw_menu, name="index"),
+    path("<path:subpath>/", test_draw_menu, name="index"),
 ]

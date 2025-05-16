@@ -5,9 +5,9 @@
         {% for node in menu_items %}
             <li>
                 {% if target == node.name %}
-                    <span class="dotted-underline">{{ node.name }}</span>
+                    <span class="dotted-underline"><a href="{{menu_url}}{{node.url}}">{{ node.name }}</a></span>
                 {% else %}
-                    {{ node.name }}
+                    <a href="{{menu_url}}{{node.url}}">{{ node.name }}</a>
                 {% endif %}
                 {% if node.children %}
                     {% include 'menu/one_menu.html' with menu_items=node.children %}

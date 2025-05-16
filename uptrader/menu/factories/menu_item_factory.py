@@ -18,4 +18,4 @@ class MenuItemFactory(factory.django.DjangoModelFactory):
         model = MenuItem
 
     name = factory.faker.Faker("word")
-    url = factory.faker.Faker("word")
+    url = factory.LazyAttribute(lambda obj: f"{obj.name}/")
