@@ -27,6 +27,10 @@ jobs:
         uv sync
     - name: Run Linters
       run: |
+        ls -a
+        cd uptrader
+        ls -a
+        . .venv/bin/activate
         black --check --diff .
         isort --check-only --diff .
 
@@ -74,7 +78,9 @@ jobs:
           POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
         run: |
+          ls -a
           cd uptrader
+          ls -a
           . .venv/bin/activate
           python manage.py migrate
           python manage.py test
